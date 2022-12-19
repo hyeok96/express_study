@@ -4,6 +4,15 @@ const app = express();
 
 const members = require("./members");
 
+// express.json()는 함수를 리턴한다.
+// 그 함수는 서버로 온 request의 바디에 json데이터가 존재할 경우에 json데이터 추출해서 route handler request 바디의
+// 바디 프로퍼티 값을 설정한다.
+// request가 route handler로 처리되기 전에 추가적으로 필요한 전처리 작업을 수행하는 함수를
+// express에서는 미들웨어(middleware)라고 한다.
+// 마들웨어는 서버로 오는 모든 request에 대한 필요한 처리를 해주는 함수이다.
+// app객체에 use메소드를 통해서 설정할 수 있다.
+app.use(express.json());
+
 app.get("/api/members", (req, res) => {
   // send메소드에는 다양한 타입의 데이터를 넣어줄 수 있다.
   // 배열을 jSON파일로 변환해서 response의 body의 담아서 보내준다.
@@ -36,6 +45,17 @@ app.get("/api/members/:id", (req, res) => {
     // 나중에 response의 추가적인 정보를 넣어줄 때 확장하기가 쉽다.
     res.status(404).send({ message: "There is no such member" });
   }
+});
+
+// 정보를 추가할 떄는 app객체의 post함수 사용
+// /api/members로 오는 post request를 처리할 수 있다.
+//
+app.post("/api/members", (req, res) => {
+  // 새로운 정보는 request의 body에 담겨져 있고 req.body로 가져올 수 있다.
+  // console.log(req.body);
+  const newMember = req.body;
+  members.push(newMember);
+  res.send(newMember);
 });
 
 app.listen(3000, () => {

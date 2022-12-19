@@ -1,0 +1,23 @@
+// 확장자를 http로 해주어야 rest client 확장 프로그램에서 이 파일을 인식한다.
+// 이 파일 안에서 우리가 보낼 request를 적어주면 vs코드애서 서버로 reqeust를 보내준다.
+
+GET http://localhost:3000/api/members
+
+// 메소드들을 구분
+###
+POST http://localhost:3000/api/members
+Content-Type: application/json
+// body의 있는 데이터(resoure)의 type을 나타낸다.
+// application/json의 뜻은 body에 있는 데이터가 json이라는 뜻이다.
+
+{
+    "id": 11,
+    "name": "Zake",
+    "team": "Engineering",
+    "position": "Android Developer",
+    "emailAddress": "zake@google.com",
+    "phoneNumber": "010-xxxx-xxxx",
+    "admissionData": "202/06/12",
+    "brithday": "1995/09/27",
+    "profileImage": "profile11.png" 
+}
