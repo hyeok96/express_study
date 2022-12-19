@@ -7,7 +7,16 @@ const members = require("./members");
 app.get("/api/members", (req, res) => {
   // send메소드에는 다양한 타입의 데이터를 넣어줄 수 있다.
   // 배열을 jSON파일로 변환해서 response의 body의 담아서 보내준다.
-  res.send(members);
+  // res.send(members);
+
+  // request객체의 query라는 객체는 url의 query의 표시한 여러 parameter들이 담겨져 있다.
+  const { team } = req.query;
+  if (team) {
+    const teamMembers = members.filter((m) => m.team === team);
+    res.send(teamMembers);
+  } else {
+    res.send(members);
+  }
 });
 
 // :id의 의미는 members/의 뒤에 오는 값을 :id(변수)에 대입하라는 의미
