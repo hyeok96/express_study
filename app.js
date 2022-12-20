@@ -2,8 +2,9 @@ const express = require("express");
 
 const app = express();
 
-const members = require("./members");
+let members = require("./members");
 
+// body가 있는 request를 처리하기 위해선 추가적인 로직 필요하다.
 // express.json()는 함수를 리턴한다.
 // 그 함수는 서버로 온 request의 바디에 json데이터가 존재할 경우에 json데이터 추출해서 route handler request 바디의
 // 바디 프로퍼티 값을 설정한다.
@@ -43,7 +44,7 @@ app.get("/api/members/:id", (req, res) => {
     // res 객체의 status라는 메소드를 사용해서 상태코드를 지정할 수 있다.
     // api서버에는 문장을 바로 보내는 것보다 하나의 JASON객체 안에 넣어서 보내준다.
     // 나중에 response의 추가적인 정보를 넣어줄 때 확장하기가 쉽다.
-    res.status(404).send({ message: "There is no such member" });
+    res.status(404).send({ message: "There is no such member with the id!!" });
   }
 });
 
@@ -56,6 +57,31 @@ app.post("/api/members", (req, res) => {
   const newMember = req.body;
   members.push(newMember);
   res.send(newMember);
+});
+
+app.put("/api/members/:id", (req, res) => {
+  const { id } = req.params;
+  const newInfo = req.body;
+  const member = members.find((m) => m.id === Number(id));
+  if (member) {
+    Object.keys(newInfo).forEach((prop) => {
+      member[prop] = newInfo[prop];
+    });
+    res.send(member);
+  } else {
+    res.status(404).send({ message: "There is no member with the id!" });
+  }
+});
+
+app.delete("/api/members/:id", (req, res) => {
+  const { id } = req.params;
+  const membersCount = members.length;
+  members = members.filter((members) => members.id !== Number(id));
+  if (members.length < membersCount) {
+    res.send({ message: "Deleted" });
+  } else {
+    res.status(404).send({ message: "There is no member with the id!" });
+  }
 });
 
 app.listen(3000, () => {

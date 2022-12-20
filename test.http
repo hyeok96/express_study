@@ -1,7 +1,7 @@
 // 확장자를 http로 해주어야 rest client 확장 프로그램에서 이 파일을 인식한다.
 // 이 파일 안에서 우리가 보낼 request를 적어주면 vs코드애서 서버로 reqeust를 보내준다.
 
-GET http://localhost:3000/api/members
+GET http://localhost:3000/api/members/
 
 // 메소드들을 구분
 ###
@@ -21,3 +21,22 @@ Content-Type: application/json
     "brithday": "1995/09/27",
     "profileImage": "profile11.png" 
 }
+
+###
+PUT http://localhost:3000/api/members/1
+Content-Type: application/json
+ 
+{
+    "id": 1,
+    "name": "Alex",
+    "team": "engineering",
+    "position": "IOS Developer",
+    "emailAddress": "alex@google.com",
+    "phoneNumber": "010-xxxx-xxxx",
+    "admissionDate": "2018/12/10",
+    "birthday": "1994/11/08",
+    "profileImage": "profile1.png"
+}
+
+###
+DELETE http://localhost:3000/api/members/3
