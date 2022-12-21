@@ -39,4 +39,4 @@ Content-Type: application/json
 }
 
 ###
-DELETE http://localhost:3000/api/members/3
+DELETE http://localhost:3000/api/members/11
