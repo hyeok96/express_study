@@ -2,7 +2,9 @@ const express = require("express");
 
 const app = express();
 
-let members = require("./members");
+const db = require("./models/index");
+
+const { Member } = db;
 
 // body가 있는 request를 처리하기 위해선 추가적인 로직 필요하다.
 // express.json()는 함수를 리턴한다.
@@ -14,7 +16,7 @@ let members = require("./members");
 // app객체에 use메소드를 통해서 설정할 수 있다.
 app.use(express.json());
 
-app.get("/api/members", (req, res) => {
+app.get("/api/members", async (req, res) => {
   // send메소드에는 다양한 타입의 데이터를 넣어줄 수 있다.
   // 배열을 jSON파일로 변환해서 response의 body의 담아서 보내준다.
   // res.send(members);
@@ -22,9 +24,11 @@ app.get("/api/members", (req, res) => {
   // request객체의 query라는 객체는 url의 query의 표시한 여러 parameter들이 담겨져 있다.
   const { team } = req.query;
   if (team) {
-    const teamMembers = members.filter((m) => m.team === team);
+    const teamMembers = await Member.findAll({ where: { team: team } });
     res.send(teamMembers);
   } else {
+    // findAll은 모든 테이블을 조회해서 가져온다.
+    const members = await Member.findAll();
     res.send(members);
   }
 });
