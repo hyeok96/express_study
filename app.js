@@ -24,11 +24,16 @@ app.get("/api/members", async (req, res) => {
   // request객체의 query라는 객체는 url의 query의 표시한 여러 parameter들이 담겨져 있다.
   const { team } = req.query;
   if (team) {
-    const teamMembers = await Member.findAll({ where: { team: team } });
+    const teamMembers = await Member.findAll({
+      where: { team: team },
+      order: [["admissionDate", "DESC"]],
+    });
     res.send(teamMembers);
   } else {
     // findAll은 모든 테이블을 조회해서 가져온다.
-    const members = await Member.findAll();
+    const members = await Member.findAll({
+      order: [["admissionDate", "DESC"]],
+    });
     res.send(members);
   }
 });
@@ -36,11 +41,11 @@ app.get("/api/members", async (req, res) => {
 // :id의 의미는 members/의 뒤에 오는 값을 :id(변수)에 대입하라는 의미
 // members뒤에는 가변적인 값들이 오는데 그 값들을 id에 담으라는 의미
 // 이것을 Route Parameter이라고 한다. path(경로)에 가변적인 값이 전달되는 부분에 사용
-app.get("/api/members/:id", (req, res) => {
+app.get("/api/members/:id", async (req, res) => {
   // req 객체의 params라는 객체에 프로파티(속성)로 가져올 수 있다.
   // const id = req.params.id;
   const { id } = req.params;
-  const member = members.find((m) => m.id === Number(id));
+  const member = await Member.findOne({ where: { id } });
   if (member) {
     res.send(member);
   } else {
