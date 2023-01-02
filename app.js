@@ -60,12 +60,14 @@ app.get("/api/members/:id", async (req, res) => {
 // 정보를 추가할 떄는 app객체의 post함수 사용
 // /api/members로 오는 post request를 처리할 수 있다.
 //
-app.post("/api/members", (req, res) => {
+app.post("/api/members", async (req, res) => {
   // 새로운 정보는 request의 body에 담겨져 있고 req.body로 가져올 수 있다.
   // console.log(req.body);
   const newMember = req.body;
-  members.push(newMember);
-  res.send(newMember);
+  // const member = Member.build(newMember);
+  // await member.save();
+  const member = await Member.create(newMember);
+  res.send(member);
 });
 
 app.put("/api/members/:id", (req, res) => {
