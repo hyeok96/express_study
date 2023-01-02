@@ -26,13 +26,13 @@ app.get("/api/members", async (req, res) => {
   if (team) {
     const teamMembers = await Member.findAll({
       where: { team: team },
-      order: [["admissionDate", "DESC"]],
+      order: [["id", "DESC"]],
     });
     res.send(teamMembers);
   } else {
     // findAll은 모든 테이블을 조회해서 가져온다.
     const members = await Member.findAll({
-      order: [["admissionDate", "DESC"]],
+      // order: [["admissionDate", "DESC"]],
     });
     res.send(members);
   }
@@ -70,29 +70,55 @@ app.post("/api/members", async (req, res) => {
   res.send(member);
 });
 
-app.put("/api/members/:id", (req, res) => {
+// app.put("/api/members/:id", async (req, res) => {
+//   const { id } = req.params;
+//   const newInfo = req.body;
+// const member = members.find((m) => m.id === Number(id));
+// if (member) {
+//   Object.keys(newInfo).forEach((prop) => {
+//     member[prop] = newInfo[prop];
+//   });
+//   res.send(member);
+// } else {
+//   res.status(404).send({ message: "There is no member with the id!" });
+// }
+// const result = await Member.update(newInfo, { where: { id } });
+// if (result[0]) {
+//   res.send({ message: `${result[0]} row(s) affected` });
+// } else {
+//   res.status(404).send({ message: `There is no member with the id!` });
+// }
+// });
+app.put("/api/members/:id", async (req, res) => {
   const { id } = req.params;
   const newInfo = req.body;
-  const member = members.find((m) => m.id === Number(id));
+  const member = await Member.findOne({ where: { id } });
   if (member) {
     Object.keys(newInfo).forEach((prop) => {
       member[prop] = newInfo[prop];
     });
+    await member.save();
     res.send(member);
   } else {
-    res.status(404).send({ message: "There is no member with the id!" });
+    res.status(404).send({ message: "There is no member whit the id!" });
   }
 });
 
-app.delete("/api/members/:id", (req, res) => {
+app.delete("/api/members/:id", async (req, res) => {
   const { id } = req.params;
-  const membersCount = members.length;
-  members = members.filter((members) => members.id !== Number(id));
-  if (members.length < membersCount) {
-    res.send({ message: "Deleted" });
+  const deletedCount = await Member.destroy({ where: { id } });
+  if (deletedCount) {
+    res.send({ message: `${deletedCount} row(s) deleted` });
   } else {
     res.status(404).send({ message: "There is no member with the id!" });
   }
+  // const membersCount = members.length;
+  // members = members.filter((members) => members.id !== Number(id));
+  // if (members.length < membersCount) {
+  //   res.send({ message: "Deleted" });
+  // } else {
+  //   res.status(404).send({ message: "There is no member with the id!" });
+  // }
 });
 
 app.listen(3000, () => {
