@@ -6,14 +6,6 @@ const db = require("./models/index");
 
 const { Member } = db;
 
-// body가 있는 request를 처리하기 위해선 추가적인 로직 필요하다.
-// express.json()는 함수를 리턴한다.
-// 그 함수는 서버로 온 request의 바디에 json데이터가 존재할 경우에 json데이터 추출해서 route handler request 바디의
-// 바디 프로퍼티 값을 설정한다.
-// request가 route handler로 처리되기 전에 추가적으로 필요한 전처리 작업을 수행하는 함수를
-// express에서는 미들웨어(middleware)라고 한다.
-// 마들웨어는 서버로 오는 모든 request에 대한 필요한 처리를 해주는 함수이다.
-// app객체에 use메소드를 통해서 설정할 수 있다.
 app.use(express.json());
 
 app.get("/api/members", async (req, res) => {
