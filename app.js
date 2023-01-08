@@ -26,9 +26,6 @@ app.get("/api/members", async (req, res) => {
   }
 });
 
-// :id의 의미는 members/의 뒤에 오는 값을 :id(변수)에 대입하라는 의미
-// members뒤에는 가변적인 값들이 오는데 그 값들을 id에 담으라는 의미
-// 이것을 Route Parameter이라고 한다. path(경로)에 가변적인 값이 전달되는 부분에 사용
 app.get("/api/members/:id", async (req, res) => {
   // req 객체의 params라는 객체에 프로파티(속성)로 가져올 수 있다.
   // const id = req.params.id;
