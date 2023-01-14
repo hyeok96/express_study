@@ -27,17 +27,11 @@ app.get("/api/members", async (req, res) => {
 });
 
 app.get("/api/members/:id", async (req, res) => {
-  // req 객체의 params라는 객체에 프로파티(속성)로 가져올 수 있다.
-  // const id = req.params.id;
   const { id } = req.params;
   const member = await Member.findOne({ where: { id } });
   if (member) {
     res.send(member);
   } else {
-    // 정보가 없을시 실행이 되는데 없으면 404라는 상태코드를 보내줄 것
-    // res 객체의 status라는 메소드를 사용해서 상태코드를 지정할 수 있다.
-    // api서버에는 문장을 바로 보내는 것보다 하나의 JASON객체 안에 넣어서 보내준다.
-    // 나중에 response의 추가적인 정보를 넣어줄 때 확장하기가 쉽다.
     res.status(404).send({ message: "There is no such member with the id!!" });
   }
 });
