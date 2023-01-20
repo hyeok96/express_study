@@ -69,13 +69,6 @@ app.delete("/api/members/:id", async (req, res) => {
   } else {
     res.status(404).send({ message: "There is no member with the id!" });
   }
-  // const membersCount = members.length;
-  // members = members.filter((members) => members.id !== Number(id));
-  // if (members.length < membersCount) {
-  //   res.send({ message: "Deleted" });
-  // } else {
-  //   res.status(404).send({ message: "There is no member with the id!" });
-  // }
 });
 
 app.listen(3000, () => {
