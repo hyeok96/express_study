@@ -37,8 +37,6 @@ app.get("/api/members/:id", async (req, res) => {
 });
 
 app.post("/api/members", async (req, res) => {
-  // 새로운 정보는 request의 body에 담겨져 있고 req.body로 가져올 수 있다.
-  // console.log(req.body);
   const newMember = req.body;
   // const member = Member.build(newMember);
   // await member.save();
