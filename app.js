@@ -38,8 +38,6 @@ app.get("/api/members/:id", async (req, res) => {
 
 app.post("/api/members", async (req, res) => {
   const newMember = req.body;
-  // const member = Member.build(newMember);
-  // await member.save();
   const member = await Member.create(newMember);
   res.send(member);
 });
