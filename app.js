@@ -9,7 +9,6 @@ const { Member } = db;
 app.use(express.json());
 
 app.get("/api/members", async (req, res) => {
-  // request객체의 query라는 객체는 url의 query의 표시한 여러 parameter들이 담겨져 있다.
   const { team } = req.query;
   if (team) {
     const teamMembers = await Member.findAll({
